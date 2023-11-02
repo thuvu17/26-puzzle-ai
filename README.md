@@ -1,4 +1,5 @@
-# 26 Puzzle Problem
+<h1 align=center> 26 Puzzle Problem</h1>
+
 ## Project Description
 Implement the A* search algorithm with graph search (no repeated states) 
 for solving the 26-puzzle problem as described below. Use h(n)= Sum of Manhattan distances of 
@@ -11,7 +12,9 @@ goal states from an input file and then generate an output file that contains th
 - Heuristic function h(n) = sum of Manhattan distances = |delta x| + |delta y| + |delta z|
 - Actions allowed: East(E), West(W), South(S), North(S), Up(U), Down(D)
 
-![image](https://github.com/thuvu17/26-puzzle-ai/assets/112644941/d7712407-4ed4-484f-a868-ee444856824e)
+<p align="center">
+  <img src="https://github.com/thuvu17/26-puzzle-ai/assets/112644941/d7712407-4ed4-484f-a868-ee444856824e">
+</p>
 
 ### Input
 - Includes 23 lines

@@ -35,8 +35,8 @@ def main():
     root = Node(curr_state, None, [], None)
     
 
-def search(curr_state, goal_state):
-    
+def a_star_search(curr_state, goal_state):
+    return
     
 
 # Find sum of Manhattan distance

@@ -12,6 +12,7 @@
 # line 28: f(n) values of the nodes along the solution path, separated by blank spaces
 
 from node import Node
+from graph import AStar
 
 def main():
     # VARIABLES
@@ -31,39 +32,45 @@ def main():
             i += 1
         f.close()
     
-    print(get_h_value(curr_state, goal_state))
-    root = Node(curr_state, None, [], None)
+    # print(get_h_value(curr_state, goal_state))
+    solution = a_star_search(curr_state, goal_state)
+    # print(solution.action)
     
 
 def a_star_search(curr_state, goal_state):
-    return
+    actions = ['E', 'W', 'S', 'N', 'U', 'D']
+    searching_algo = AStar(curr_state, goal_state, actions)
+    solution = searching_algo.search()
+    print(searching_algo.init_state)
+    return solution
     
 
-# Find sum of Manhattan distance
-def get_h_value(curr_state, goal_state):
-    h_value = 0
-    for line in range(3):
-        for x in range(3):
-            for y in range(3):
-                curr_coords = (line, x, y)
-                curr_element = curr_state[line][x][y]
-                h_value += get_Manhattan_distance(curr_element, curr_coords, goal_state)
-    return h_value
+# # Find sum of Manhattan distance
+# def get_h_value(curr_state, goal_state):
+#     h_value = 0
+#     for line in range(3):
+#         for x in range(3):
+#             for y in range(3):
+#                 curr_coords = (line, x, y)
+#                 curr_element = curr_state[line][x][y]
+#                 if curr_element != 0:
+#                     h_value += get_Manhattan_distance(curr_element, curr_coords, goal_state)
+#     return h_value
+#
+#
+# # Find Manhattan distance for one element
+# def get_Manhattan_distance(target, curr_coords, goal_state):
+#     goal_coord = get_coords(target, goal_state)
+#     return sum(abs(curr_coords[i] - goal_coord[i]) for i in range(3))
 
 
-# Find Manhattan distance for one element
-def get_Manhattan_distance(target, curr_coords, goal_state):
-    goal_coord = get_coords(target, goal_state)
-    return sum(abs(curr_coords[i] - goal_coord[i]) for i in range(3))
-
-
-# Find level, x, y of a target number
-def get_coords(target, matrix):
-    for level in range(3):
-        for x in range(3):
-            for y in range(3):
-                if matrix[level][x][y] == target:
-                    return (level, x, y)
+# # Find level, x, y of a target number
+# def get_coords(target, matrix):
+#     for level in range(3):
+#         for x in range(3):
+#             for y in range(3):
+#                 if matrix[level][x][y] == target:
+#                     return (level, x, y)
 
 
 # Simple matrix printing function

@@ -110,6 +110,7 @@ class AStar:
             print("--------------------------")
             print("Got node from frontier")
             curr_node = self.frontier.get()
+            self.curr_node = curr_node
             if curr_node.state == self.goal_state:
                 print("found")
                 return len(self.reached) + 1
@@ -118,7 +119,7 @@ class AStar:
             for child in self.expand(curr_node):
                 print("Got a child")
                 tuple_state = self.make_tuple(child.state)
-                self.curr_state = child.state               # Save current state
+                self.curr_node = child
                 
                 # Add child node to reached table and frontier
                 if tuple_state not in self.reached or child.f_value < self.reached[tuple_state].f_value:

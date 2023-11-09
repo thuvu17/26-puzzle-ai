@@ -60,25 +60,32 @@ class AStar:
         level = blank_curr_position[0]
         x = blank_curr_position[1]
         y = blank_curr_position[2]
-        new_state = curr_state.copy()
+        new_state = copy.deepcopy(curr_state)
         # Perform action
         if action == 'E' and y != 2:
             new_state[level][x][y], new_state[level][x][y + 1] = new_state[level][x][y + 1], new_state[level][x][y]
+            
         elif action == 'W' and y != 0:
             new_state[level][x][y], new_state[level][x][y - 1] = new_state[level][x][y - 1], new_state[level][x][y]
+            
         elif action == 'S' and x != 2:
             new_state[level][x][y], new_state[level][x + 1][y] = new_state[level][x + 1][y], new_state[level][x][y]
+            
         elif action == 'N' and x != 0:
             new_state[level][x][y], new_state[level][x - 1][y] = new_state[level][x - 1][y], new_state[level][x][y]
+            
         elif action == 'U' and level != 0:
             new_state[level][x][y], new_state[level - 1][x][y] = new_state[level - 1][x][y], new_state[level][x][y]
+            
         elif action == 'D' and level != 2:
             new_state[level][x][y], new_state[level + 1][x][y] = new_state[level + 1][x][y], new_state[level][x][y]
+        
         return new_state
 
     # Expand a node
     def expand(self, curr_node):
         s = curr_node.state
+        # Apply each action to current node and return its child node
         for action in self.actions:
             new_parent = curr_node
             new_s = self.result(s, action)
@@ -86,10 +93,6 @@ class AStar:
             new_f_value = self.get_h_value(new_s) + new_level
             new_action = copy.deepcopy(new_parent.action)
             new_action.append(action)
-            print("Actions:", new_action)
-            print("State:")
-            print_matrix(new_s)
-            print("\n")
             yield Node(new_s, new_parent, new_action, new_level, new_f_value)
 
     # Perform A* search
@@ -99,25 +102,32 @@ class AStar:
         self.curr_node.parent = self.curr_node
         init_f = self.get_h_value(self.curr_node.state)
         self.curr_node.f_value = init_f
-        print("Root f value:", self.curr_node.f_value)
+        # print("Root f value:", self.curr_node.f_value)
 
         self.reached[self.make_tuple(self.curr_node.state)] = self.curr_node
         self.frontier.put(self.curr_node)
-        print("Is frontier empty?", self.frontier.empty())
+        # print("Is frontier empty?", self.frontier.empty())
 
         # Expand highest priority node while frontier is not empty
         while not self.frontier.empty():
             print("--------------------------")
-            print("Got node from frontier")
+            print("Expanding node from frontier")
             curr_node = self.frontier.get()
             self.curr_node = curr_node
+            
+            # DEBUGGING
+            print("F value:", self.curr_node.f_value)
+            print("Action list:", self.curr_node.action)
+            print("State:")
+            print_matrix(self.curr_node.state)
+
             if curr_node.state == self.goal_state:
                 print("found")
                 return len(self.reached) + 1
             
             # Expand current node
             for child in self.expand(curr_node):
-                print("Got a child")
+                # print("Got a child")
                 tuple_state = self.make_tuple(child.state)
                 self.curr_node = child
                 

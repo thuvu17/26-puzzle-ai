@@ -18,6 +18,7 @@ def main():
     # VARIABLES
     INPUT_FILE = "input.txt"
     INPUT_DATA = ""
+    OUTPUT_DATA = ""
     init_state = [([[], [], []]) for i in range(3)]
     goal_state = [([[], [], []]) for i in range(3)]
     
@@ -26,6 +27,7 @@ def main():
         i = 0
         for line in f:
             INPUT_DATA += line
+            OUTPUT_DATA += line
             line = line.strip()
             read_states(i, line, init_state, goal_state)
             i += 1
@@ -47,6 +49,9 @@ def main():
     print("FINAL STATE:")
     print_matrix(a_star.curr_node.state)
     print("Actions:", a_star.curr_node.action)
+    
+    write_output_file(OUTPUT_DATA, a_star)
+    exit()
 
     
 
@@ -77,7 +82,19 @@ def read_states(line_num, input_line, init_state, goal_state):
         elif line_num < 19:
             goal_state[1][line_num % 16] = list(map(int, input_line.split()))
         else:
-            goal_state[2][line_num % 20] = list(map(int, input_line.split()))            
+            goal_state[2][line_num % 20] = list(map(int, input_line.split())) 
+            
+
+def write_output_file(OUTPUT_DATA, result_graph):
+    outf = open("output.txt", "w")
+    
+    depth_shallowest_goal = result_graph.curr_node.level
+    
+    OUTPUT_DATA += "\n"     # line 24 is blank
+    OUTPUT_DATA += str(depth_shallowest_goal)
+    outf.write(OUTPUT_DATA)
+    outf.close()
+    
     
 
 if __name__ == "__main__":

@@ -116,24 +116,19 @@ class AStar:
             self.curr_node = curr_node
             
             # DEBUGGING
-            print("F value:", self.curr_node.f_value)
-            print("Action list:", self.curr_node.action)
-            print("State:")
-            print_matrix(self.curr_node.state)
+            print(curr_node)
 
+            # If found, return number of nodes reached
             if curr_node.state == self.goal_state:
                 print("found")
-                return len(self.reached) + 1
+                return len(self.reached)           
             
             # Expand current node
             for child in self.expand(curr_node):
                 # DEBUG
-                print("--------------------------")
+                print("-------------------------")
                 print("This is a child")
-                print("F value:", child.f_value)
-                print("Action list:", child.action)
-                print("State:")
-                print_matrix(child.state)
+                print(child)
                 
                 tuple_state = self.make_tuple(child.state)
                 self.curr_node = child

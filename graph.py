@@ -82,6 +82,7 @@ class AStar:
         
         return new_state
 
+
     # Expand a node
     def expand(self, curr_node):
         s = curr_node.state
@@ -94,6 +95,7 @@ class AStar:
             new_action = copy.deepcopy(new_parent.action)
             new_action.append(action)
             yield Node(new_s, new_parent, new_action, new_level, new_f_value)
+
 
     # Perform A* search
     def search(self):
@@ -120,7 +122,6 @@ class AStar:
 
             # If found, return number of nodes reached
             if curr_node.state == self.goal_state:
-                print("found")
                 return len(self.reached)           
             
             # Expand current node

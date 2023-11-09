@@ -20,7 +20,6 @@ def main():
     INPUT_DATA = ""
     init_state = [([[], [], []]) for i in range(3)]
     goal_state = [([[], [], []]) for i in range(3)]
-    total_nodes = 1
     
     # READ INPUT
     with open(INPUT_FILE) as f:
@@ -38,8 +37,13 @@ def main():
     # Perform A* search
     actions = ['E', 'W', 'S', 'N', 'U', 'D']
     a_star = AStar(init_state, goal_state, actions)
-    solution = a_star.search()
+    found = a_star.search()
     
+    print("---------------------\nRESULT")
+    if found:
+        print("Number of nodes:", len(a_star.reached))
+    else:
+        print("Solution not found")
     print("FINAL STATE:")
     print_matrix(a_star.curr_node.state)
     print("Actions:", a_star.curr_node.action)

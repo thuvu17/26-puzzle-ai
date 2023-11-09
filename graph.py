@@ -1,7 +1,7 @@
 from node import Node
 import queue
 
-State_Index = {}
+state_index = {}
 
 class AStar:
     def __init__(self, init_state, goal_state, actions):
@@ -62,7 +62,7 @@ class AStar:
             new_state[level][x][y], new_state[level + 1][x][y] = new_state[level + 1][x][y], new_state[level][x][y]
         return new_state
 
-
+    # Expand a node
     def expand(self, curr_node):
         s = curr_node.state
         children_list = []
@@ -73,30 +73,35 @@ class AStar:
             child = Node(new_s, curr_node, action, new_level, new_f_value)
             children_list.append(child)
         for child in children_list:
-            print('1 ')
+            print('+1 child')
         return children_list
 
-
+    # Perform A* search
     def search(self):
+        # Initialize root node
         init_node = Node(self.init_state, None, None, 0, 0)
         init_f = self.get_h_value(init_node.state)
         init_node.f_value = init_f
-        print(init_node.f_value)
-        State_Index[0] = init_node.state
+        print("Root f value:", init_node.f_value)
+
+        state_index[0] = init_node.state
         self.reached[0] = init_node
         self.frontier.put(init_node)
-        print(self.frontier.empty())
+        print("Is frontier empty?", self.frontier.empty())
+
+        # Expand highest priority node while frontier is not empty
         while not self.frontier.empty():
             curr_node = self.frontier.get()
+            print(type(curr_node))
             if curr_node.state == self.goal_state:
                 print("found")
                 return curr_node
             children = self.expand(curr_node)
             for child in children:
-                State_Index[len(State_Index)] = child.state
-                if child.state in State_Index.values():
-                    for key in State_Index.keys():
-                        if State_Index[key] == child.state:
+                state_index[len(state_index)] = child.state
+                if child.state in state_index.values():
+                    for key in state_index.keys():
+                        if state_index[key] == child.state:
                             child_state_index = key
                 if child_state_index not in self.reached.keys() or child.f_value < self.reached[child.state].f_value:
                     self.reached[child_state_index] = child

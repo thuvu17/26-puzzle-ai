@@ -1,8 +1,6 @@
 from node import Node
 import queue
 
-state_index = {}
-
 class AStar:
     def __init__(self, init_state, goal_state, actions):
         self.init_state = init_state
@@ -25,6 +23,11 @@ class AStar:
         return h_value
 
 
+    # Make into all tuples
+    def make_tuple(self, state):
+        return tuple(tuple(tuple(inner_list) for inner_list in state[i]) for i in range(3))
+
+    
     # Find Manhattan distance for one element
     def get_Manhattan_distance(self, target, curr_coords):
         goal_coord = self.get_coords(target, self.goal_state)
@@ -84,8 +87,7 @@ class AStar:
         init_node.f_value = init_f
         print("Root f value:", init_node.f_value)
 
-        state_index[0] = init_node.state
-        self.reached[0] = init_node
+        self.reached[self.make_tuple(init_node.state)] = init_node
         self.frontier.put(init_node)
         print("Is frontier empty?", self.frontier.empty())
 
@@ -98,13 +100,9 @@ class AStar:
                 return curr_node
             children = self.expand(curr_node)
             for child in children:
-                state_index[len(state_index)] = child.state
-                if child.state in state_index.values():
-                    for key in state_index.keys():
-                        if state_index[key] == child.state:
-                            child_state_index = key
-                if child_state_index not in self.reached.keys() or child.f_value < self.reached[child.state].f_value:
-                    self.reached[child_state_index] = child
+                tuple_state = self.make_tuple(child.state)
+                if tuple_state not in self.reached or child.f_value < self.reached[tuple_state].f_value:
+                    self.reached[tuple_state] = child
                     self.frontier.put(child)
         return
 

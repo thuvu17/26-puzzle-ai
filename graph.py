@@ -73,11 +73,7 @@ class AStar:
             new_s = self.result(s, action)
             new_level = curr_node.level + 1
             new_f_value = self.get_h_value(new_s) + new_level
-            child = Node(new_s, curr_node, action, new_level, new_f_value)
-            children_list.append(child)
-        for child in children_list:
-            print('+1 child')
-        return children_list
+            yield Node(new_s, curr_node, action, new_level, new_f_value)
 
     # Perform A* search
     def search(self):
@@ -98,8 +94,7 @@ class AStar:
             if curr_node.state == self.goal_state:
                 print("found")
                 return curr_node
-            children = self.expand(curr_node)
-            for child in children:
+            for child in self.expand(curr_node):
                 tuple_state = self.make_tuple(child.state)
                 if tuple_state not in self.reached or child.f_value < self.reached[tuple_state].f_value:
                     self.reached[tuple_state] = child

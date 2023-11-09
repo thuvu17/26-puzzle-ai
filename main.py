@@ -18,7 +18,7 @@ def main():
     # VARIABLES
     INPUT_FILE = "input.txt"
     INPUT_DATA = ""
-    curr_state = [([[], [], []]) for i in range(3)]
+    init_state = [([[], [], []]) for i in range(3)]
     goal_state = [([[], [], []]) for i in range(3)]
     total_nodes = 1
     
@@ -28,31 +28,31 @@ def main():
         for line in f:
             INPUT_DATA += line
             line = line.strip()
-            read_states(i, line, curr_state, goal_state)
+            read_states(i, line, init_state, goal_state)
             i += 1
         f.close()
     
-    # print(get_h_value(curr_state, goal_state))
-    solution = a_star_search(curr_state, goal_state)
+    # print(get_h_value(init_state, goal_state))
+    solution = a_star_search(init_state, goal_state)
     # print(solution.action)
     
 
-def a_star_search(curr_state, goal_state):
+def a_star_search(init_state, goal_state):
     actions = ['E', 'W', 'S', 'N', 'U', 'D']
-    searching_algo = AStar(curr_state, goal_state, actions)
+    searching_algo = AStar(init_state, goal_state, actions)
     solution = searching_algo.search()
     print(searching_algo.init_state)
     return solution
     
 
 # # Find sum of Manhattan distance
-# def get_h_value(curr_state, goal_state):
+# def get_h_value(init_state, goal_state):
 #     h_value = 0
 #     for line in range(3):
 #         for x in range(3):
 #             for y in range(3):
 #                 curr_coords = (line, x, y)
-#                 curr_element = curr_state[line][x][y]
+#                 curr_element = init_state[line][x][y]
 #                 if curr_element != 0:
 #                     h_value += get_Manhattan_distance(curr_element, curr_coords, goal_state)
 #     return h_value
@@ -80,15 +80,15 @@ def print_matrix(matrix):
 
 
 # Read an input string into initial and goal states
-def read_states(line_num, input_line, curr_state, goal_state):
+def read_states(line_num, input_line, init_state, goal_state):
     # Reading initial state
     if line_num < 11 and line_num not in (3, 7):
         if line_num < 3:
-            curr_state[0][line_num] = list(map(int, input_line.split()))
+            init_state[0][line_num] = list(map(int, input_line.split()))
         elif line_num < 7:
-            curr_state[1][line_num % 4] = list(map(int, input_line.split()))
+            init_state[1][line_num % 4] = list(map(int, input_line.split()))
         else:
-            curr_state[2][line_num % 8] = list(map(int, input_line.split()))
+            init_state[2][line_num % 8] = list(map(int, input_line.split()))
     # Reading goal state
     elif line_num >= 12 and line_num < 23 and line_num not in (15, 19):
         if line_num < 15:

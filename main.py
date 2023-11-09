@@ -32,51 +32,28 @@ def main():
             i += 1
         f.close()
     
-    # print(get_h_value(init_state, goal_state))
-    solution = a_star_search(init_state, goal_state)
-    # print(solution.action)
-    
+    print("INITIAL STATE:")
+    print_matrix(init_state)
 
-def a_star_search(init_state, goal_state):
+    # Perform A* search
     actions = ['E', 'W', 'S', 'N', 'U', 'D']
-    searching_algo = AStar(init_state, goal_state, actions)
-    solution = searching_algo.search()
-    print(searching_algo.init_state)
-    return solution
+    a_star = AStar(init_state, goal_state, actions)
+    solution = a_star.search()
     
+    print("FINAL STATE:")
+    print_matrix(a_star.curr_node.state)
+    print("Actions:", a_star.curr_node.action)
 
-# # Find sum of Manhattan distance
-# def get_h_value(init_state, goal_state):
-#     h_value = 0
-#     for line in range(3):
-#         for x in range(3):
-#             for y in range(3):
-#                 curr_coords = (line, x, y)
-#                 curr_element = init_state[line][x][y]
-#                 if curr_element != 0:
-#                     h_value += get_Manhattan_distance(curr_element, curr_coords, goal_state)
-#     return h_value
-#
-#
-# # Find Manhattan distance for one element
-# def get_Manhattan_distance(target, curr_coords, goal_state):
-#     goal_coord = get_coords(target, goal_state)
-#     return sum(abs(curr_coords[i] - goal_coord[i]) for i in range(3))
-
-
-# # Find level, x, y of a target number
-# def get_coords(target, matrix):
-#     for level in range(3):
-#         for x in range(3):
-#             for y in range(3):
-#                 if matrix[level][x][y] == target:
-#                     return (level, x, y)
-
+    
 
 # Simple matrix printing function
 def print_matrix(matrix):
-    for line in matrix:
-        print(line)
+    for layer in matrix:
+        for line in layer:
+            for element in line:
+                print(element, end=' ')
+            print()
+        print()
 
 
 # Read an input string into initial and goal states

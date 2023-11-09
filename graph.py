@@ -1,10 +1,21 @@
 from node import Node
 import queue
+import copy
+
+# FOR DEBUG
+def print_matrix(matrix):
+    for layer in matrix:
+        for line in layer:
+            for element in line:
+                print(element, end=' ')
+            print()
+        print()
 
 class AStar:
     def __init__(self, init_state, goal_state, actions):
         self.init_state = init_state
         self.goal_state = goal_state
+        self.curr_node = None        # The current node the algorithm is looking at
         self.actions = actions
         self.frontier = queue.PriorityQueue()
         self.reached = {}
@@ -68,36 +79,50 @@ class AStar:
     # Expand a node
     def expand(self, curr_node):
         s = curr_node.state
-        children_list = []
         for action in self.actions:
+            new_parent = curr_node
             new_s = self.result(s, action)
-            new_level = curr_node.level + 1
+            new_level = new_parent.level + 1
             new_f_value = self.get_h_value(new_s) + new_level
-            yield Node(new_s, curr_node, action, new_level, new_f_value)
+            new_action = copy.deepcopy(new_parent.action)
+            new_action.append(action)
+            print("Actions:", new_action)
+            print("State:")
+            print_matrix(new_s)
+            print("\n")
+            yield Node(new_s, new_parent, new_action, new_level, new_f_value)
 
     # Perform A* search
     def search(self):
         # Initialize root node
-        init_node = Node(self.init_state, None, None, 0, 0)
-        init_f = self.get_h_value(init_node.state)
-        init_node.f_value = init_f
-        print("Root f value:", init_node.f_value)
+        self.curr_node = Node(self.init_state, None, [], 0, 0)
+        self.curr_node.parent = self.curr_node
+        init_f = self.get_h_value(self.curr_node.state)
+        self.curr_node.f_value = init_f
+        print("Root f value:", self.curr_node.f_value)
 
-        self.reached[self.make_tuple(init_node.state)] = init_node
-        self.frontier.put(init_node)
+        self.reached[self.make_tuple(self.curr_node.state)] = self.curr_node
+        self.frontier.put(self.curr_node)
         print("Is frontier empty?", self.frontier.empty())
 
         # Expand highest priority node while frontier is not empty
         while not self.frontier.empty():
+            print("--------------------------")
+            print("Got node from frontier")
             curr_node = self.frontier.get()
-            print(type(curr_node))
             if curr_node.state == self.goal_state:
                 print("found")
-                return curr_node
+                return len(self.reached) + 1
+            
+            # Expand current node
             for child in self.expand(curr_node):
+                print("Got a child")
                 tuple_state = self.make_tuple(child.state)
+                self.curr_state = child.state               # Save current state
+                
+                # Add child node to reached table and frontier
                 if tuple_state not in self.reached or child.f_value < self.reached[tuple_state].f_value:
                     self.reached[tuple_state] = child
                     self.frontier.put(child)
-        return
+        return -1
 

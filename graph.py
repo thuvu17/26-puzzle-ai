@@ -68,11 +68,11 @@ class AStar:
         elif action == 'W' and y != 0:
             new_state[level][x][y], new_state[level][x][y - 1] = new_state[level][x][y - 1], new_state[level][x][y]
             
-        elif action == 'S' and x != 2:
-            new_state[level][x][y], new_state[level][x + 1][y] = new_state[level][x + 1][y], new_state[level][x][y]
-            
         elif action == 'N' and x != 0:
             new_state[level][x][y], new_state[level][x - 1][y] = new_state[level][x - 1][y], new_state[level][x][y]
+            
+        elif action == 'S' and x != 2:
+            new_state[level][x][y], new_state[level][x + 1][y] = new_state[level][x + 1][y], new_state[level][x][y]
             
         elif action == 'U' and level != 0:
             new_state[level][x][y], new_state[level - 1][x][y] = new_state[level - 1][x][y], new_state[level][x][y]
@@ -110,7 +110,7 @@ class AStar:
 
         # Expand highest priority node while frontier is not empty
         while not self.frontier.empty():
-            print("--------------------------")
+            print("=============================")
             print("Expanding node from frontier")
             curr_node = self.frontier.get()
             self.curr_node = curr_node
@@ -127,7 +127,14 @@ class AStar:
             
             # Expand current node
             for child in self.expand(curr_node):
-                # print("Got a child")
+                # DEBUG
+                print("--------------------------")
+                print("This is a child")
+                print("F value:", child.f_value)
+                print("Action list:", child.action)
+                print("State:")
+                print_matrix(child.state)
+                
                 tuple_state = self.make_tuple(child.state)
                 self.curr_node = child
                 

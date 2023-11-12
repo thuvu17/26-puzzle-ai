@@ -17,7 +17,7 @@ from graph import AStar
 
 def main():
     # VARIABLES
-    INPUT_FILE = "INPUT2.txt"
+    INPUT_FILE = "INPUT1.txt"
     INPUT_DATA = ""
     OUTPUT_DATA = ""
     init_state = [([[], [], []]) for i in range(3)]
@@ -37,23 +37,25 @@ def main():
             i += 1
         f.close()
 
-    print("INITIAL STATE:")
-    print_matrix(init_state)
+    # FOR DEBUG
+    # print("INITIAL STATE:")
+    # print_matrix(init_state)
 
     # Perform A* search
     actions = ['E', 'W', 'S', 'N', 'U', 'D']
     a_star = AStar(init_state, goal_state, actions)
     found = a_star.search()
 
-    print("---------------------\nRESULT")
-    if found:
-        print("FOUND!")
-        print("Number of nodes:", len(a_star.reached))
-    else:
-        print("Solution not found!!!")
-    print("FINAL STATE:")
-    print_matrix(a_star.curr_node.state)
-    print("Actions:", a_star.curr_node.action)
+    # FOR DEBUG
+    # print("---------------------\nRESULT")
+    # if found:
+    #     print("FOUND!")
+    #     print("Number of nodes:", len(a_star.reached))
+    # else:
+    #     print("Solution not found!!!")
+    # print("FINAL STATE:")
+    # print_matrix(a_star.curr_node.state)
+    # print("Actions:", a_star.curr_node.action)
 
     write_output_file(OUTPUT_DATA, a_star)
     exit()

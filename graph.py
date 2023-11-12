@@ -112,13 +112,13 @@ class AStar:
 
         # Expand highest priority node while frontier is not empty
         while not self.frontier.empty():
-            print("=============================")
-            print("Expanding node from frontier")
+            # print("=============================")
+            # print("Expanding node from frontier")
             curr_node = self.frontier.get()
             self.curr_node = curr_node
             
-            # DEBUGGING
-            print(curr_node)
+            # FOR DEBUG
+            # print(curr_node)
 
             # If found, return number of nodes reached
             if curr_node.state == self.goal_state:
@@ -126,10 +126,10 @@ class AStar:
             
             # Expand current node
             for child in self.expand(curr_node):
-                # DEBUG
-                print("-------------------------")
-                print("This is a child")
-                print(child)
+                # FOR DEBUG
+                # print("-------------------------")
+                # print("This is a child")
+                # print(child)
                 
                 tuple_state = self.make_tuple(child.state)
                 self.curr_node = child

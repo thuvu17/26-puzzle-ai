@@ -2,15 +2,6 @@ from node import Node
 import queue
 import copy
 
-# FOR DEBUG
-def print_matrix(matrix):
-    for layer in matrix:
-        for line in layer:
-            for element in line:
-                print(element, end=' ')
-            print()
-        print()
-
 class AStar:
     def __init__(self, init_state, goal_state, actions):
         self.init_state = init_state
@@ -104,21 +95,14 @@ class AStar:
         self.curr_node.parent = self.curr_node
         init_f = self.get_h_value(self.curr_node.state)
         self.curr_node.f_value = init_f
-        # print("Root f value:", self.curr_node.f_value)
 
         self.reached[self.make_tuple(self.curr_node.state)] = self.curr_node
         self.frontier.put(self.curr_node)
-        # print("Is frontier empty?", self.frontier.empty())
 
         # Expand highest priority node while frontier is not empty
         while not self.frontier.empty():
-            # print("=============================")
-            # print("Expanding node from frontier")
             curr_node = self.frontier.get()
             self.curr_node = curr_node
-            
-            # FOR DEBUG
-            # print(curr_node)
 
             # If found, return number of nodes reached
             if curr_node.state == self.goal_state:
@@ -126,10 +110,6 @@ class AStar:
             
             # Expand current node
             for child in self.expand(curr_node):
-                # FOR DEBUG
-                # print("-------------------------")
-                # print("This is a child")
-                # print(child)
                 
                 tuple_state = self.make_tuple(child.state)
                 self.curr_node = child

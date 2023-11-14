@@ -18,8 +18,8 @@ from graph import AStar
 
 def main():
     # VARIABLES
-    INPUT_FILE = "input1.txt"
-    OUTPUT_FILE = "output1.txt"
+    INPUT_FILE = "InputFileName.txt"
+    OUTPUT_FILE = "OutputFileName.txt"
     INPUT_DATA = ""
     OUTPUT_DATA = ""
     init_state = [([[], [], []]) for i in range(3)]

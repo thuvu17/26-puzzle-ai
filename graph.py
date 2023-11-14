@@ -1,3 +1,5 @@
+# Project Team Members: Yongwen Lei and Thu Vu
+
 from node import Node
 import queue
 import copy

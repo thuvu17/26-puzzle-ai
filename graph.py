@@ -12,7 +12,6 @@ class AStar:
         self.frontier = queue.PriorityQueue()
         self.reached = {}
 
-
     # Find h value of child
     def get_h_value(self, curr_state):
         # Find sum of Manhattan distance
@@ -26,17 +25,14 @@ class AStar:
                         h_value += self.get_Manhattan_distance(curr_element, curr_coords)
         return h_value
 
-
     # Make into all tuples
     def make_tuple(self, state):
         return tuple(tuple(tuple(inner_list) for inner_list in state[i]) for i in range(3))
-
 
     # Find Manhattan distance for one element
     def get_Manhattan_distance(self, target, curr_coords):
         goal_coord = self.get_coords(target, self.goal_state)
         return sum(abs(curr_coords[i] - goal_coord[i]) for i in range(3))
-
 
     # Find level, x, y of a target number
     def get_coords(self, target, state):
@@ -45,7 +41,6 @@ class AStar:
                 for y in range(3):
                     if state[level][x][y] == target:
                         return (level, x, y)
-
 
     # Return result of performing an action on current state
     def result(self, curr_state, action):
@@ -75,7 +70,6 @@ class AStar:
 
         return new_state
 
-
     # Expand a node
     def expand(self, curr_node):
         s = curr_node.state
@@ -88,7 +82,6 @@ class AStar:
             new_action = copy.deepcopy(new_parent.action)
             new_action.append(action)
             yield Node(new_s, new_parent, new_action, new_level, new_f_value)
-
 
     # Perform A* search
     def search(self):

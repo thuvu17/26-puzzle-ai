@@ -25,7 +25,6 @@ class Node:
                 state += '\n'
             state += '\n'
 
-        # DEBUG
         action_list = ' '.join(self.action)
         f_value = str(self.f_value)
         level = str(self.level)

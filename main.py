@@ -16,7 +16,8 @@ from graph import AStar
 
 def main():
     # VARIABLES
-    INPUT_FILE = "INPUT2.txt"
+    INPUT_FILE = "input.txt"
+    OUTPUT_FILE = "output.txt"
     INPUT_DATA = ""
     OUTPUT_DATA = ""
     init_state = [([[], [], []]) for i in range(3)]
@@ -45,7 +46,7 @@ def main():
     found = a_star.search()
 
     # Write results to output file
-    write_output_file(OUTPUT_DATA, a_star)
+    write_output_file(OUTPUT_FILE, OUTPUT_DATA, a_star)
     exit()
 
 
@@ -84,8 +85,8 @@ def get_f_value_list(final_node, init_state):
 
 
 # Write results from A* search to output file
-def write_output_file(OUTPUT_DATA, result_graph):
-    outf = open("output.txt", "w")
+def write_output_file(OUTPUT_FILE, OUTPUT_DATA, result_graph):
+    outf = open(OUTPUT_FILE, "w")
 
     depth_shallowest_goal = result_graph.curr_node.level
     total_num_nodes = len(result_graph.reached)
